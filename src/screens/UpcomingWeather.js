@@ -1,6 +1,15 @@
-import { View, Text, SafeAreaView, StyleSheet, FlatList } from 'react-native'
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  StatusBar,
+  Image,
+  ImageBackground
+} from 'react-native'
 import React from 'react'
-import { Feather } from '@expo/vector-icons'
+import ListItem from '../components/ListItem'
 
 const DATA = [
   {
@@ -41,22 +50,10 @@ const DATA = [
   }
 ]
 
-const Item = (props) => {
-  const { dt_txt, min, max, condition } = props
-  return (
-    <View>
-      <Feather name={'sun'} size={50} color={'white'} />
-      <Text>{dt_txt}</Text>
-      <Text>{min}</Text>
-      <Text>{max}</Text>
-      <Text>{condition}</Text>
-    </View>
-  )
-}
 
 const UpcomingWeather = () => {
   const renderItem = ({ item }) => (
-    <Item
+    <ListItem
       condition={item.weather[0].main}
       dt_txt={item.dt_txt}
       min={item.main.temp_min}
@@ -66,15 +63,31 @@ const UpcomingWeather = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Upcoming Weather</Text>
-      <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) => item.dt_tx} />
+      <ImageBackground
+        source={require('../../assets/upcoming-background.jpg')}
+        style={styles.image}
+      >
+        <Text>Upcoming Weather</Text>
+
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.dt_tx}
+        />
+      </ImageBackground>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: 'royalblue'
+  },
+  image: {
+    flex:1,
+
   }
 })
 
